@@ -1,0 +1,20 @@
+.relations-wrap {
+    background-color: #f5f5f5;
+    padding: 24px;
+    display: flex;
+}
+
+.relations-wrap .relations-list-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0 8px;
+}
+
+.relations-list-subheader {
+    display: flex;
+    align-items: center;
+}
+
+.relations-list-subheader .search-text-field .MuiInputBase-root {
+    padding-right: 0;
+}

@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 64px 0;
+}
+
+.MuiListItemText-root .MuiListItemText-primary, .MuiListItemText-root .MuiListItemText-secondary, .ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MuiListItem-root.MuiListItem-padding>.MuiListItemButton-root {
+  padding-right: 64px;
+}
