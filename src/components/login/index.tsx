@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import RelationIM from "@relationlabs/im"
 import { authByMetamask } from "@relationlabs/auth"
 
-const APIKEY = 'c531bf538aa5487085c0865cf8ebedcc'
+const APIKEY = '581c6c4fa0b54912b00088aa563342a4'
 
 const Login = ({
     authenticated = false,

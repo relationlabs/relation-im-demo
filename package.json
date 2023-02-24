@@ -13,8 +13,8 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
-    "@relationlabs/auth": "^1.0.4",
-    "@relationlabs/im": "^0.3.0",
+    "@relationlabs/auth": "^1.0.6",
+    "@relationlabs/im": "^0.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
