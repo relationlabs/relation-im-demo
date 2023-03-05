@@ -1,29 +1,29 @@
-# Relation IM示例demo开发指引
-demo通过`vite3`的`react-ts`模版创建，为方便构建UI本示例使用了`Material UI`组件,开发者可以基于本示例开发应用，也可以自行选择脚手架工具与UI库开发应用
+# Demo for building a Relation IM application
+The demo is created through `vite3's` `react-ts` template. To construct a UI quickly, this demo uses the `Material UI` component. Developers can develop their own applications based on this demo or choose other scaffold tools and UI libraries.
 
 ---
 
 # JS-SDK
 
-`@relationlabs/auth`    签名认证SDK
+`@relationlabs/auth`    The SDK for signature authentication.
 
-`@relationlabs/im`  im工具SDK
+`@relationlabs/im`  The SDK for IM tools.
 
-安装
+Install
 ```bash
 npm install --save @relationlabs/auth @relationlabs/im
 ```
 
-sdk详细使用说明请参照对应文档
+For more information, please refer to relevant documents for using SDKs.
 
 ---
 
-# demo模块说明
+# Demo module explained
 
-## Login登录组件
-目录`src/components/login/`
+## Login component
+Directory `src/components/login/`
 
-主要功能签名认证与`RelationIM`实例的初始化，并通过`RelationIM`实例获取当前用户的基础信息
+Its main function is signature verification and initializing a `RelationIM` instance. Using the instance, the current user's basic information can be acquired.
 
 ```javascript
 import { authByMetamask } from "@relationlabs/auth"
@@ -45,28 +45,28 @@ const signAndLogin = useCallback(async () => {
 
 ```
 
-通过 `authByMetamask()` 方法进行签名认证，成功后使用获取到的 `addressAuthToken` 换取 `unifiedAuthToken` ，即登录认证 `RelationIM.getRelationToken(addressAuthToken, APIKEY)`
+We can use the method  `authByMetamask()` to authenticate the signature. If successful, the `addressAuthToken` returned can be used to acquire a `unifiedAuthToken` . Namely, to authenticate in this way:   `RelationIM.getRelationToken(addressAuthToken, APIKEY)`
 
-登录认证通过后, 调用`im.getUserInfo()`方法即可获取当前登录用户的基本信息
+When the login is authenticated, call the method `im.getUserInfo()` to acquire the current user's basic information.
 
-Login登录组件并未对 `unifiedAuthToken` 和 `userInfo` 做持久化存储，因为刷新页面后需要重新登录，开发者可以用适当的方式保存上述数据，避免状态丢失
+The Login component will not persist  `unifiedAuthToken` and `userInfo` , for re-login is required after refreshing the page. Developers can save this data in their own way if they want to persist the state.
 
 ---
 
-## Relations 组件
-目录`src/components/relations/`
+## Relations component
+Directory: `src/components/relations/`
 
-该组件内有两个子模块
+The component has two sub-modules:
 
-`Following` 和 `Recommend`
+`Following` and `Recommend`
 
 ---
 
 ### **Following**
 
-主要展示已关注用户的列表，提供向好友打招呼/删除好友以及创建群聊的功能
+It shows the list of users that a user is following. Via the function, a user can say hi to their friends, delete them, or create channels.
 
-加载列表
+Load the list
 ```javascript
 const loadFollowing = async (reload = false) => {
     const im = RelationIM.getInstance()
@@ -82,9 +82,9 @@ const loadFollowing = async (reload = false) => {
 }
 ```
 
-列表数据已上一页数据返回的 `cursor` 作为参数用来获取下一页的数据，返回值 `cursor` 为空则表示数据已拉取完毕
+The list uses the `cursor` parameter returned by the last data page to acquire the next data page. If the return value  `cursor` is empty, it means all the data is already fetched.
 
-删除好友
+Delete a friend
 ```javascript
 const unfollow = async (relationId: string) => {
     const im = RelationIM.getInstance()
@@ -97,7 +97,7 @@ const unfollow = async (relationId: string) => {
 }
 ```
 
-创建群聊
+Create a channel
 ```javascript
 const createGroup = async () => {
     const im = RelationIM.getInstance()
@@ -116,17 +116,17 @@ const createGroup = async () => {
 }
 ```
 
-`checked` 是已选中好友的 `relationId` 集合(数组)
+`checked` is the collection (array) of the `relationId` of the friends chosen.
 
-群聊创建成功后，可以获取到 `channelUuid`，可以在发送消息时作为参数使用
+If the channel is created successfully, a `channelUuid` will be acquired, which can be used as a parameter when sending messages.
 
 ---
 
 ### **Recommend**
 
-主要引擎推荐的用户列表，提供添加好友（关注用户）/打招呼以及搜索单个用户的功能
+List of users recommended by the system. One can add(follow), say hi to, and search for a user.
 
-添加好友
+Add a friend
 ```javascript
 const follow = async (relationId: string) => {
     const im = RelationIM.getInstance()
@@ -139,7 +139,7 @@ const follow = async (relationId: string) => {
 }
 ```
 
-查找单个用户
+Search for a user
 ```javascript
 const findOne = async () => {
     const im = RelationIM.getInstance()
@@ -157,24 +157,24 @@ const findOne = async () => {
 }
 ```
 
-`searchInputValue` 表示查找内容，输入完整的 `relationId` 即可查询到对方的基本信息
+`searchInputValue` is the content to be searched. With a complete `relationId`, one can search for the respective user information.
 
 ---
 
-## Channels 组件
-目录`src/components/channels/`
+## Channels component
+Directory: `src/components/channels/`
 
-该组件内的子模块
+Sub-modules in the component include:
 
-`List`, `Conversation` 和 `channelInfo`
+`List`, `Conversation` and `channelInfo`
 
 ---
 
 ### **List**
 
-展示会话列表，并通过 `Socket` 监听新的消息推送
+Display the list of sessions and listen to new push messages via `Socket` .
 
-接收消息推送
+Receive push messages:
 ```javascript
 const onMessage = useCallback(() => {
     const im = RelationIM.getInstance()
@@ -190,17 +190,17 @@ const onMessage = useCallback(() => {
 }, [])
 ```
 
-接受到新的消息后，如果会话列表里不存在此会话就可以主动刷新一次数据获取手动往会话列表里插入新会话
+When a new message is received without a respective session in the list of sessions, the current session can retrieve the new data and insert it to the list of sessions.
 
 ### **ChannelInfo**
 
-一个展示群详情的对话框，展示群名称/头像/成员列表
+A dialog displaying the details of a channel (group). It lists the name of the channel, avatars, and members in it.
 
 ### **Conversation**
 
-聊天框，显示当前会话内的消息列表，可发送文本消息
+The chat box displays the list of messages in the current session. Text messges can be sent here.
 
-显示最新的n条消息
+Display the last n messages.
 ```javascript
 const loadRecentMessage = async () => {
     if (currentChannel && relationId) {
@@ -218,9 +218,9 @@ const loadRecentMessage = async () => {
 }
 ```
 
-根据当前时间去获取最新的50条消息，开发者可以在聊天框滚动到第一条消息时去加载过往消息，通过 `maxCreateAt` 参数分页
+To acquire the last 50 messages based on the current timestamp. Developers can choose to load previous messages when the first message is scrolled up on top and split the result in different pages using a parameter  `maxCreateAt` .
 
-接收消息推送
+Receive push message
 ```javascript
 const onMessage = useCallback(() => {
     const im = RelationIM.getInstance()
@@ -235,9 +235,9 @@ const onMessage = useCallback(() => {
 }, [])
 ```
 
-开发者可以选择在应用的不同位置监听新消息的推送事件，也可以在全局只监听一次，然后将新消息分发给不同的模块
+Developers can choose to listen to push events triggered by new messages in different positions of their applications, or just do it once globally and distribute the new message to different modules.
 
-发送消息
+Send a message
 ```javascript
 const sendMessage = async () => {
     if (inputValue && currentChannel) {
@@ -259,6 +259,6 @@ const sendMessage = async () => {
 }
 ```
 
-将输入框中的内容发送到当前会话
+Send the content in the input box to the current session.
 
-消息内容解析: 请参照 `@relationlabs/im` 文档
+Parsing the message: Please refer to the `@relationlabs/im` document.
